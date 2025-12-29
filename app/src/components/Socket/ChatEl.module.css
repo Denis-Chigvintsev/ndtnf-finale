@@ -1,0 +1,8 @@
+.chatLine {
+  display: flex;
+  flex-wrap: wrap;
+}
+p {
+  margin-left: 5px;
+  margin-right: 5px;
+}
