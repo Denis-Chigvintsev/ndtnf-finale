@@ -12,6 +12,11 @@ import { HotelRoomsModule } from './modules/hotel-rooms/hotel-rooms.module';
 import { IamModule } from './modules/iam/iam.module';
 import { SupportModule } from './modules/support/support.module';
 import { WsModule } from './modules/ws/ws.module';
+import { HotelsApiModule } from './api/hotels-api/hotels-api.module';
+import { ReservationsApiModule } from './api/reservations-api/reservations-api.module';
+import { SupportApiModule } from './api/support-api/support-api.module';
+import { IamApiModule } from './api/iam-api/iam-api.module';
+import { UsersApiModule } from './api/users-api/users-api.module';
 
 @Module({
   imports: [
@@ -24,6 +29,11 @@ import { WsModule } from './modules/ws/ws.module';
     IamModule,
     SupportModule,
     WsModule,
+    HotelsApiModule,
+    ReservationsApiModule,
+    SupportApiModule,
+    IamApiModule,
+    UsersApiModule,
   ],
   controllers: [AppController],
   providers: [AppService],

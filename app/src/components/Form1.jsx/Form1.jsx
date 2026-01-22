@@ -9,7 +9,7 @@ function Form1() {
     hotels$ = fromEvent(document.getElementById('hotelList'), 'click').pipe(
       debounceTime(300),
       switchMap(() => {
-        return fetch('http://localhost/hotels/admin', {
+        return fetch('http://localhost/api/admin/hotels', {
           credentials: 'include',
         })
           .then((res) => res.json())

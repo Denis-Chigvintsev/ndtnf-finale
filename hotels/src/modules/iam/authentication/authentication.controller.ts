@@ -19,22 +19,24 @@ import { AuthenticationService } from './authentication.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { SessionGuard } from '../guards/session/session.guard';
 import { AdminGuard } from '../guards/admin/admin.guard';
+import { FullCloseGuard } from '../guards/full-close/full-close.guard';
 
+@UseGuards(FullCloseGuard)
 @Controller('authentication')
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
   @Post('signup')
-  async signup(@Body() signUpDto: SignUpDto) {
-    console.log('signup', signUpDto);
-    return await this.authenticationService.signUp(signUpDto);
+  async signup(@Body() signUpDto: SignUpDto, @Res() res) {
+    // console.log('signup', signUpDto);
+    return await this.authenticationService.signUp(signUpDto, res);
   }
 
   @UseGuards(SessionGuard, AdminGuard)
   @Post('createuser/admin')
-  async createuser(@Body() signUpDto: SignUpDto) {
-    console.log('signup', signUpDto);
-    return await this.authenticationService.signUp(signUpDto);
+  async createuser(@Body() signUpDto: SignUpDto, @Res() res) {
+    //  console.log('signup', signUpDto);
+    return await this.authenticationService.signUp(signUpDto, res);
   }
 
   @Post('signin')
@@ -43,10 +45,16 @@ export class AuthenticationController {
     // @Res() res,
     // @Session() session: Record<string, any>,
     @Req() req,
+    @Res() res,
     @Session() session: Record<string, any>,
   ) {
-    console.log('signin');
-    return await this.authenticationService.signIn(signInDto, req, session);
+    // console.log('signin');
+    return await this.authenticationService.signIn(
+      signInDto,
+      req,
+      session,
+      res,
+    );
   }
 
   @Get('ses')

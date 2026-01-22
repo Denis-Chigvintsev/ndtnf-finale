@@ -24,7 +24,7 @@ function CreateReservationClient() {
     from(JSON.stringify(reservation))
       .pipe(
         exhaustMap((data) => {
-          return fetch('http://localhost/reservations/client', {
+          return fetch('http://localhost/api/client/reservations', {
             method: 'POST',
             credentials: 'include',
             headers: {

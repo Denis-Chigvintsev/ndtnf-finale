@@ -24,7 +24,7 @@ function Login() {
         debounceTime(300),
         exhaustMap((data) => {
           console.log(600, JSON.stringify(login));
-          return fetch('http://localhost/authentication/signin', {
+          return fetch('http://localhost/api/auth/login', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -39,7 +39,7 @@ function Login() {
               window.location.reload();
             })
             .catch((error) => console.log(error));
-        })
+        }),
       )
       .subscribe(console.log);
   }

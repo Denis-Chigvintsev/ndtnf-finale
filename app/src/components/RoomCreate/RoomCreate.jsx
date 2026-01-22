@@ -6,6 +6,8 @@ let hotelId;
 let description;
 let images = [];
 let room1;
+let flag;
+let isEnabled;
 
 function RoomCreate() {
   function handleFormSubmit(e) {
@@ -13,9 +15,13 @@ function RoomCreate() {
     let base$;
     e.preventDefault();
 
+    if (flag == '1') isEnabled = true;
+    if (flag == '2') isEnabled = false;
+
     room1 = {
       hotelId: hotelId,
       description: description,
+      isEnabled: isEnabled,
     };
 
     data1.append('file', images[0]);
@@ -35,7 +41,7 @@ function RoomCreate() {
           })
             .then((res) => res.json())
             .then((json) => {
-              console.log(json);
+              //console.log(json);
               images[0] = json.filename;
               room1.images = images[0];
             })
@@ -43,9 +49,9 @@ function RoomCreate() {
               console.log(error);
             });
         }),
-
+        map(() => {}),
         exhaustMap((data) => {
-          return fetch('http://localhost/hotel-rooms/admin', {
+          return fetch('http://localhost/api/admin/hotel-rooms', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -61,7 +67,7 @@ function RoomCreate() {
             .catch((error) => console.log(error));
         })
       )
-      .subscribe(console.log);
+      .subscribe();
   }
 
   useEffect(() => {
@@ -86,7 +92,18 @@ function RoomCreate() {
         images[0] = data;
       });
 
+    const flag_ = document.getElementById('flag_cr');
+    const flag$ = fromEvent(flag_, 'change')
+      .pipe(map((e) => e.target.value))
+      .subscribe((data) => {
+        flag = data;
+        console.log(flag);
+      });
+
     return () => {
+      if (flag$) {
+        flag$.unsubscribe();
+      }
       if (file1$) {
         file1$.unsubscribe();
       }
@@ -119,7 +136,15 @@ function RoomCreate() {
           <input type='file' id='file_cr' required />
         </label>
         <br />
-
+        <label>
+          Вкл/Выкл:
+          <select id='flag_cr' required>
+            <option value='0'> Не использовать опцию</option>
+            <option value='1'> Подключить комнату</option>
+            <option value='2'> Отключить комнату </option>
+          </select>
+        </label>
+        <br />
         <button type='submit'>Записать</button>
       </form>
     </div>

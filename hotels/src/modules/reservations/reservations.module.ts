@@ -7,6 +7,11 @@ import { HotelsModule } from '../hotels/hotels.module';
 import { HotelsService } from '../hotels/hotels.service';
 import { HotelRoomsModule } from '../hotel-rooms/hotel-rooms.module';
 import { HotelRoomsService } from '../hotel-rooms/hotel-rooms.service';
+import { Hotel, HotelSchema } from '../hotels/entities/hotel.entity';
+import {
+  HotelRoom,
+  HotelRoomSchema,
+} from '../hotel-rooms/entities/hotel-room.entity';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -14,11 +19,20 @@ import { HotelRoomsService } from '../hotel-rooms/hotel-rooms.service';
         name: Reservation.name,
         schema: ReservationSchema,
       },
+      {
+        name: Hotel.name,
+        schema: HotelSchema,
+      },
+      {
+        name: HotelRoom.name,
+        schema: HotelRoomSchema,
+      },
     ]),
 
     HotelsModule,
     HotelRoomsModule,
   ],
+  exports: [ReservationsModule],
 
   controllers: [ReservationsController],
   providers: [ReservationsService, HotelsService, HotelRoomsService],

@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  HttpException,
+  Injectable,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 
@@ -19,11 +24,17 @@ export class SessionGuard implements CanActivate {
     const res = context.switchToHttp().getResponse();
 
     if (req.session && req.session.isAuthenticated) {
-      console.log('пропускаю тебя,', req.session.user);
+      //    console.log('пропускаю тебя,', req.session.user);
       return true;
+    } else {
+      throw new HttpException(
+        {
+          status: 401,
+          error: 'Проход закрыт, пройдите аутентификацию',
+        },
+        401,
+      );
     }
-
-    return false;
   }
 }
 

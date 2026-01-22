@@ -21,7 +21,7 @@ function DeleteReservation() {
       .pipe(
         debounceTime(300),
         mergeMap((data) => {
-          return fetch(`http://localhost/reservations/client/${resID}`, {
+          return fetch(`http://localhost/api/client/reservations/${resID}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {

@@ -11,6 +11,7 @@ import {
   UseGuards,
   Req,
   Session,
+  Res,
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
@@ -18,23 +19,26 @@ import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { SessionGuard } from '../iam/guards/session/session.guard';
 import { ManagerGuard } from '../iam/guards/manager/manager.guard';
 import { AdminGuard } from '../iam/guards/admin/admin.guard';
+import { FullCloseGuard } from '../iam/guards/full-close/full-close.guard';
 
+@UseGuards(FullCloseGuard)
 @Controller('reservations')
 export class ReservationsController {
   constructor(private readonly reservationsService: ReservationsService) {}
   @UseGuards(SessionGuard)
   @Post('client')
-  async create(
+  create(
     @Body() createReservationDto: CreateReservationDto,
     @Session() session: Record<string, any>,
+    @Res() res: any,
   ) {
-    return await this.reservationsService.create(createReservationDto, session);
+    return this.reservationsService.create(createReservationDto, session, res);
   }
 
   @UseGuards(SessionGuard)
   @Get('reservations/client')
   async getUserReservations(@Session() session: Record<string, any>) {
-    console.log('getUserReservations');
+    //   console.log('getUserReservations');
     return await this.reservationsService.getUserReservations(session);
   }
 
@@ -47,7 +51,7 @@ export class ReservationsController {
   @UseGuards(SessionGuard, ManagerGuard)
   @Get('manager/:userid')
   async findOne(@Param('userid') userid: string) {
-    console.log(900900, userid);
+    //  console.log(900900, userid);
     return await this.reservationsService.findbyUserID(userid);
   }
 
@@ -60,15 +64,16 @@ export class ReservationsController {
     return this.reservationsService.update(+id, updateReservationDto);
   }
 
+  /*
   @UseGuards(SessionGuard)
   @Delete('client/:id')
   async remove(@Param('id') id: string) {
     return await this.reservationsService.remove(id);
   }
-
+*/
   @UseGuards(SessionGuard)
   @Delete('manager/:userid/:reservationid')
-  async remove1(@Param('userid') userid: string, @Param('reservationid') id) {
-    return await this.reservationsService.remove1(userid, id);
+  async remove1(@Param('reservationid') id, res) {
+    return await this.reservationsService.remove1(id, res);
   }
 }

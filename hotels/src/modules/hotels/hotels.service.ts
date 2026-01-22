@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable } from '@nestjs/common';
@@ -18,7 +19,7 @@ export class HotelsService {
     const foundTitle = await this.hotelModel.find({
       title: createHotelDto.title,
     });
-    console.log('foundTitle', foundTitle);
+    // console.log('foundTitle', foundTitle);
     if (foundTitle[0]) {
       return {
         message: ` Гостиница "${createHotelDto.title}" уже занесена в базу`,
@@ -38,19 +39,21 @@ export class HotelsService {
   }
 
   async findOne(id: string) {
-    console.log(3424, id);
-    console.log(await this.hotelModel.find({ id: id }));
     return await this.hotelModel.find({ id: id });
   }
 
-  async update(id: string, updateHotelDto: UpdateHotelDto) {
-    console.log(`hotel update ${id}`);
+  async update(id: string, updateHotelDto: UpdateHotelDto, res) {
+    //  console.log(`hotel update ${id}`);
     const found = await this.hotelModel.find({ id: id });
-    console.log(found);
+    //  console.log(found);
 
     if (!found[0]) {
-      console.log('введенный id неверен');
-      return { message: `Введенный id гостиницы ${id} неверен` };
+      res
+        .status(400)
+        .send(
+          { status: 400, error: `Введенный id гостиницы ${id} неверен` },
+          400,
+        );
     }
 
     updateHotelDto.updatedAt = new Date();

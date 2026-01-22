@@ -29,6 +29,7 @@ import ListOfRequestsClient from './components/ListOfRequestsClient/ListOfReques
 import SendMessageHttp from './components/SendMessageHttp/SendMessageHttp';
 import SendConfirmation from './components/SendConfirmation/SendConfirmation';
 import Socket from './components/Socket/Socket';
+import Logout from './components/Logout/Logout';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <h2>Тестирование бакенда "Агрегатор Отелей"</h2>
       <Register />
       <Login />
+      <Logout />
       <Form1 />
       <AddNewHotel />
       <UpdateHotel />

@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Optional } from '@nestjs/common';
+
+import { IsDate, IsOptional, IsString } from 'class-validator';
 
 export class UpdateHotelDto {
-  @Optional()
+  @IsString()
   title?: string;
-  @Optional()
+
+  @IsString()
   description?: string;
-  @Optional()
-  updatedAt?: Date;
+
+  @IsDate()
+  @IsOptional()
+  updatedAt?: Date = new Date();
 }

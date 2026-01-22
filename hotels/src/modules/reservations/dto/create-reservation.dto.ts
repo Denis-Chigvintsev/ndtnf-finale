@@ -1,14 +1,23 @@
-import { Optional } from '@nestjs/common';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class CreateReservationDto {
-  @Optional()
+  @IsOptional()
   id: string = '';
 
+  @IsOptional()
   userId: string;
 
-  roomId: string;
+  @IsString()
+  roomId: string; //////////////////////
 
-  dateStart: Date;
+  @IsOptional()
+  hotelId?: string;
 
-  dateEnd: Date;
+  //@IsString()
+  @IsDateString()
+  dateStart: string; /////////////////////
+
+  @IsString()
+  @IsDateString()
+  dateEnd: string; ////////////////////
 }

@@ -10,12 +10,9 @@ function UserReservationsList() {
       debounceTime(300),
       switchMap(async () => {
         console.log('userResList');
-        return await fetch(
-          'http://localhost/reservations/reservations/client',
-          {
-            credentials: 'include',
-          }
-        )
+        return await fetch('http://localhost/api/client/reservations', {
+          credentials: 'include',
+        })
           .then((res) => res.json())
           .catch((error) => console.log(error));
       })

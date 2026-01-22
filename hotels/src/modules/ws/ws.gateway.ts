@@ -42,8 +42,8 @@ export class WsGateway implements OnModuleInit {
 
   onModuleInit() {
     this.server.on('connection', (socket) => {
-      console.log('connected', socket.id, socket.handshake.headers.cookie);
-      console.log('connected');
+      //   console.log('connected', socket.id, socket.handshake.headers.cookie);
+      //    console.log('connected');
     });
   }
 
@@ -66,7 +66,7 @@ export class WsGateway implements OnModuleInit {
       this.server.emit('onMessage', { error: 'incorrect id' });
     }
 
-    console.log(111222, client.id);
+    // console.log(111222, client.id);
     client.join(messageDtoWS.reqid);
 
     this.server

@@ -140,6 +140,27 @@ function Socket() {
               // console.log(error);
               return empty();
             });
+        }),
+        exhaustMap(() => {
+          return fetch(
+            ///ЭТОТ ФЕТЧ ЧИСТО ДЛЯ ОТРАБОТКИ ЭНДПОИНТА СОГЛАСНО ЗАДАНИЯ
+            `http://localhost/api/common/support-requests/${reqid}/messages`,
+            {
+              method: 'GET',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+            .then((res) => res.json())
+            .then((chat) => {
+              console.log(chat);
+            })
+            .catch((error) => {
+              // console.log(error);
+              return empty();
+            });
         })
       )
       .subscribe();

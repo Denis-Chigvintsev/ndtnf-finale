@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -5,6 +6,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import session from 'express-session';
+const MongoDBStore = require('connect-mongodb-session')(session);
+
+const store = new MongoDBStore({
+  uri: process.env.MONGO_CONNECTION,
+  collection: 'mySessions',
+});
 
 import express from 'express';
 const app = express();
@@ -26,7 +33,8 @@ async function bootstrap() {
       secret: 'HelloWorld_Strongest',
       resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: 300000000000, httpOnly: true },
+      cookie: { maxAge: 86400000, httpOnly: true },
+      store: store,
     }),
   );
 

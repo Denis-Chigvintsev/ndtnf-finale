@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Optional } from '@nestjs/common';
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class SignUpDto {
   @IsString()
@@ -13,11 +12,10 @@ export class SignUpDto {
   @IsString()
   password: string;
 
-  @Optional()
   @IsString()
   contactPhone?: string;
 
-  @Optional()
+  @IsOptional()
   @IsString()
   role?: string = 'client';
 }

@@ -1,18 +1,22 @@
-import { Optional } from '@nestjs/common';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto {
-  @Optional()
+  @IsOptional()
+  @IsString()
   id?: string;
 
+  @IsString()
   name: string;
 
+  @IsEmail()
   email: string;
 
+  @IsString()
   password: string; /// hashed
 
-  @Optional()
+  @IsString()
   contactPhone?: string;
 
-  @Optional()
+  @IsString()
   role?: string = 'client';
 }

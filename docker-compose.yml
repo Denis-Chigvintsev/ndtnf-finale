@@ -4,13 +4,13 @@ services:
   frontend:
     build: ./app
     ports:
-      - 3000:3000
+      - ${FRONTEND_PORT_1}:${FRONTEND_PORT_2}
     restart: always
 
   backend:
     build: ./hotels
     ports:
-      - 80:80
+      - ${BACKEND_PORT_1}:${BACKEND_PORT_2}
     restart: always
     extra_hosts:
       - 'host.docker.internal:host-gateway'
@@ -19,10 +19,10 @@ services:
     image: mongo:7.0
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: denis
-      MONGO_INITDB_ROOT_PASSWORD: chigvintsev
+      MONGO_INITDB_ROOT_USERNAME: ${USER_NAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${PASSWORD}
     ports:
-      - 506:27017
+      - ${MONGO_PORT_1}:${MONGO_PORT_2}
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     volumes:

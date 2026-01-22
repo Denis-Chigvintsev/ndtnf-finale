@@ -29,7 +29,7 @@ function SendMessageHttp() {
         exhaustMap((data) => {
           console.log(600, JSON.stringify(messageDto));
           return fetch(
-            `http://localhost/support/support-request/message/client/manager/${reqid}`,
+            `http://localhost/api/common/support-requests/${reqid}/messages`,
             {
               method: 'POST',
               credentials: 'include',

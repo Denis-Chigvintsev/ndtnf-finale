@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -8,8 +9,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import session from 'express-session';
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
-import { User } from 'src/modules/users/entities/user.entity';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+import { User } from '../../../../modules/users/entities/user.entity';
+
 const cookieLite = require('cookie-lite');
 
 @Injectable()
@@ -28,11 +29,11 @@ export class WsGuard implements CanActivate {
     });
 
     if (browserSession && foundInDatabase) {
-      console.log('Пропускаю тебя твой-wsGuard');
-      console.log(foundInDatabase);
+      //    console.log('Пропускаю тебя твой-wsGuard');
+      //  console.log(foundInDatabase);
       return true;
     } else {
-      console.log('ПРОХОД ЗАКРЫТ- твой wsGuard');
+      //    console.log('ПРОХОД ЗАКРЫТ- твой wsGuard');
       return false;
     }
   }

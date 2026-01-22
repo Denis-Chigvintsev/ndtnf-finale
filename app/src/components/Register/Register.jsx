@@ -27,7 +27,7 @@ function Register() {
     from(JSON.stringify(register))
       .pipe(
         exhaustMap((data) => {
-          return fetch('http://localhost/authentication/signup', {
+          return fetch('http://localhost/api/client/register', {
             method: 'POST',
             credentials: 'include',
             headers: {

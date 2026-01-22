@@ -33,8 +33,8 @@ function UpdateHotel() {
       .pipe(
         debounceTime(300),
         switchMap(async (data) => {
-          await fetch(`http://localhost/hotels/admin/${await id1}`, {
-            method: 'PATCH',
+          await fetch(`http://localhost/api/admin/hotels/${await id1}`, {
+            method: 'PUT',
             credentials: 'include',
             headers: {
               'Content-Type': 'application/json',

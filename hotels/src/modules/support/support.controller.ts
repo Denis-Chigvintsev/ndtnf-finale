@@ -8,20 +8,22 @@ import {
   Delete,
   Session,
   UseGuards,
+  Res,
+  Req,
 } from '@nestjs/common';
 import { SupportService } from './support.service';
 import { CreateSupportDto } from './dto/create-support.dto';
-import { UpdateSupportDto } from './dto/update-support.dto';
 import { ConfirmationDto } from './dto/confirmation.dto';
 import { SessionGuard } from '../iam/guards/session/session.guard';
 import { ManagerGuard } from '../iam/guards/manager/manager.guard';
 import { MessageDto } from './dto/message.dto';
-import { AdminGuard } from '../iam/guards/admin/admin.guard';
+import { FullCloseGuard } from '../iam/guards/full-close/full-close.guard';
 
 @Controller('support')
 export class SupportController {
   constructor(private readonly supportService: SupportService) {}
 
+  @UseGuards(FullCloseGuard)
   @UseGuards(SessionGuard)
   @Post('support-request/client')
   async createSupportRequest(
@@ -33,7 +35,7 @@ export class SupportController {
       session,
     );
   }
-
+  @UseGuards(FullCloseGuard)
   @UseGuards(SessionGuard, ManagerGuard)
   @Get('support-request/manager')
   async findListOfRequestsManager() {
@@ -45,13 +47,13 @@ export class SupportController {
   async getRequestById(@Param('id') id: string, @Session() session) {
     return await this.supportService.getRequestById(session, id);
   }
-
+  @UseGuards(FullCloseGuard)
   @UseGuards(SessionGuard)
   @Get('support-request/client')
   async findListOfRequestsClient(@Session() session) {
     return await this.supportService.findListOfRequestsClient(session);
   }
-
+  @UseGuards(FullCloseGuard)
   @UseGuards(SessionGuard)
   @Post('support-request/message/client/manager/:id') // id это support request id
   async sendMessage(
@@ -61,10 +63,15 @@ export class SupportController {
   ) {
     return await this.supportService.sendMessage(messageDto, session, id);
   }
-
+  @UseGuards(FullCloseGuard)
   @UseGuards(SessionGuard)
-  @Post('support-request/read-confirmation/client/manager') //id - support-request //arr-number это номер в массиве сообщений
-  async readConfirmation(@Body() confirmationDto: ConfirmationDto) {
-    return await this.supportService.readConfirmation(confirmationDto);
+  @Post('support-request/read-confirmation/client/manager/:id') //id - support-request //arr-number это номер в массиве сообщений
+  readConfirmation(
+    @Body() confirmationDto: ConfirmationDto,
+    @Param('id') id: string,
+    @Res() res,
+    @Req() req,
+  ) {
+    return this.supportService.readConfirmation(confirmationDto, id, res, req);
   }
 }

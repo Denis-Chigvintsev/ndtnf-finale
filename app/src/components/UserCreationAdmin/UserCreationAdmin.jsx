@@ -31,7 +31,7 @@ function UserCreationAdmin() {
     from(JSON.stringify(register))
       .pipe(
         exhaustMap((data) => {
-          return fetch('http://localhost/authentication/createuser/admin', {
+          return fetch('http://localhost/api/admin/users', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -51,50 +51,35 @@ function UserCreationAdmin() {
   useEffect(() => {
     const email_ = document.getElementById('email_uca');
     const email$ = fromEvent(email_, 'change')
-      .pipe(
-        map((e) => e.target.value),
-        debounceTime(1)
-      )
+      .pipe(map((e) => e.target.value))
       .subscribe((data) => {
         email = data;
       });
 
     const password_ = document.getElementById('password_uca');
     const pss$ = fromEvent(password_, 'change')
-      .pipe(
-        map((e) => e.target.value),
-        debounceTime(1)
-      )
+      .pipe(map((e) => e.target.value))
       .subscribe((data) => {
         password = data;
       });
 
     const name1_ = document.getElementById('name1_uca');
     const name1$ = fromEvent(name1_, 'change')
-      .pipe(
-        map((e) => e.target.value),
-        debounceTime(1)
-      )
+      .pipe(map((e) => e.target.value))
       .subscribe((data) => {
         name1 = data;
       });
 
     const contactPhone_ = document.getElementById('contactPhone_uca');
     const contactPhone$ = fromEvent(contactPhone_, 'change')
-      .pipe(
-        map((e) => e.target.value),
-        debounceTime(1)
-      )
+      .pipe(map((e) => e.target.value))
       .subscribe((data) => {
         contactPhone = data;
       });
 
     const role_ = document.getElementById('role_uca');
     const role$ = fromEvent(role_, 'change')
-      .pipe(
-        map((e) => e.target.value),
-        debounceTime(300)
-      )
+      .pipe(map((e) => e.target.value))
       .subscribe((data) => {
         role = data;
       });
@@ -128,7 +113,7 @@ function UserCreationAdmin() {
       <br />
       <label>
         Выбрать категорию:
-        <select id='role_uca'>
+        <select id='role_uca' required>
           <option value='client'> Client</option>
           <option value='manager'> Manager</option>
           <option value='admin'> Admin</option>

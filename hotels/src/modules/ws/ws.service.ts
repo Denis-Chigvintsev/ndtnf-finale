@@ -70,8 +70,8 @@ export class WsService {
       id: readDto.reqid,
     });
 
-    console.log(-200000, foundUser?.name);
-    console.log(-200000001, found1?.messages[readDto.messageNumber]);
+    // console.log(-200000, foundUser?.name);
+    // console.log(-200000001, found1?.messages[readDto.messageNumber]);
 
     if (
       found1 &&

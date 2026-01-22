@@ -9,7 +9,7 @@ function ListOfRequestsManager() {
     list$ = fromEvent(document.getElementById('btn_lrm'), 'click').pipe(
       debounceTime(300),
       switchMap(async () => {
-        return await fetch('http://localhost/support/support-request/manager', {
+        return await fetch('http://localhost/api/manager/support-requests', {
           credentials: 'include',
         })
           .then((res) => res.json())

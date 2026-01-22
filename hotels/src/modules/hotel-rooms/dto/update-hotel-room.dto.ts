@@ -1,24 +1,31 @@
-import { Optional } from '@nestjs/common';
+import { IsBoolean, IsDate, IsOptional, IsString } from 'class-validator';
 
 export class UpdateHotelRoomDto {
-  @Optional()
-  id?: string = '';
+  //  @IsString()
+  // @Optional()
+  //  id?: string = '';
 
-  @Optional()
+  @IsString()
+  // @IsOptional()
   hotelId?: string;
 
-  @Optional()
+  @IsString()
+  // @IsOptional()
   description?: string;
 
-  @Optional()
+  @IsString({ each: true })
+  // @IsOptional()
   images?: string[];
 
-  @Optional()
-  createdAt?: Date;
+  // @IsDate()
+  //  @Optional()
+  // createdAt?: Date;
 
-  @Optional()
+  @IsDate()
+  @IsOptional()
   updatedAt?: Date;
 
-  @Optional()
+  @IsBoolean()
+  // @IsOptional()
   isEnabled?: boolean;
 }

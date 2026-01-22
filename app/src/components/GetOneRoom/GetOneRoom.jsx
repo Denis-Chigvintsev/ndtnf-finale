@@ -13,13 +13,13 @@ function GetOneRoom() {
     from([roomID])
       .pipe(
         mergeMap((data) => {
-          return fetch(`http://localhost/hotel-rooms/${roomID}`)
+          return fetch(`http://localhost/api/common/hotel-rooms/${roomID}`)
             .then((res) => res.json())
             .then((json) => console.log(json))
             .catch((error) => console.log(error));
         })
       )
-      .subscribe(console.log);
+      .subscribe();
   }
 
   useEffect(() => {

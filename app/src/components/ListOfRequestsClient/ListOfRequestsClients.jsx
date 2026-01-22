@@ -10,7 +10,7 @@ function ListOfRequestsClient() {
     list$ = fromEvent(document.getElementById('btn_lrc'), 'click').pipe(
       debounceTime(300),
       switchMap(async () => {
-        return await fetch(`http://localhost/support/support-request/client`, {
+        return await fetch(`http://localhost/api/client/support-requests`, {
           credentials: 'include',
         })
           .then((res) => res.json())

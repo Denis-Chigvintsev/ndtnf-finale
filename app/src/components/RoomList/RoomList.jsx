@@ -9,7 +9,7 @@ function RoomList() {
     rooms$ = fromEvent(document.getElementById('roomsListAll'), 'click').pipe(
       debounceTime(300),
       switchMap(() => {
-        return fetch('http://localhost/hotel-rooms', {
+        return fetch('http://localhost/api/common/hotel-rooms', {
           credentials: 'include',
         })
           .then((res) => res.json())

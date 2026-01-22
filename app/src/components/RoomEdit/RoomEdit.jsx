@@ -8,15 +8,23 @@ let images = [];
 let room1;
 let roomID;
 
+let flag;
+let isEnabled;
+
 function RoomEdit() {
   function handleFormSubmit(e) {
     const data1 = new FormData();
 
     e.preventDefault();
 
+    if (flag == '1') isEnabled = true;
+    if (flag == '2') isEnabled = false;
+
     room1 = {
-      hotel: hotelId,
+      id: roomID,
+      hotelId: hotelId,
       description: description,
+      isEnabled: isEnabled,
     };
 
     data1.append('file', images[0]);
@@ -37,7 +45,6 @@ function RoomEdit() {
           })
             .then((res) => res.json())
             .then((json) => {
-              console.log(1000, json);
               images[0] = json.filename;
               room1.images = images[0];
             })
@@ -45,10 +52,12 @@ function RoomEdit() {
               console.log(error);
             });
         }),
-
+        map(() => {
+          console.log(room1);
+        }),
         exhaustMap((data) => {
-          return fetch(`http://localhost/hotel-rooms/admin/${roomID}`, {
-            method: 'PATCH',
+          return fetch(`http://localhost/api/admin/hotel-rooms/${roomID}`, {
+            method: 'PUT',
             credentials: 'include',
             headers: {
               'Content-Type': 'application/json',
@@ -95,7 +104,19 @@ function RoomEdit() {
         images[0] = data;
       });
 
+    const flag_ = document.getElementById('flag_ed');
+    const flag$ = fromEvent(flag_, 'change')
+      .pipe(map((e) => e.target.value))
+      .subscribe((data) => {
+        flag = data;
+        console.log(flag);
+      });
+
     return () => {
+      if (flag$) {
+        flag$.unsubscribe();
+      }
+
       if (file1$) {
         file1$.unsubscribe();
       }
@@ -135,6 +156,16 @@ function RoomEdit() {
         <label>
           фотография:
           <input type='file' id='file_re' required />
+        </label>
+        <br />
+        <br />
+        <label>
+          Вкл/Выкл:
+          <select id='flag_ed' required>
+            <option value='0'> Не использовать опцию</option>
+            <option value='1'> Подключить комнату</option>
+            <option value='2'> Отключить комнату </option>
+          </select>
         </label>
         <br />
 

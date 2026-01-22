@@ -1,5 +1,5 @@
 import s from './SupportRequestCreation.module.css';
-import { debounceTime, fromEvent, map, from, switchMap } from 'rxjs';
+import { debounceTime, fromEvent, map, from, switchMap, take } from 'rxjs';
 import { useEffect } from 'react';
 let text = '';
 
@@ -12,8 +12,9 @@ function SupportRequestCreation() {
     from(JSON.stringify(createSupportDto))
       .pipe(
         debounceTime(300),
+        take(1),
         switchMap((data) => {
-          return fetch('http://localhost/support/support-request/client', {
+          return fetch('http://localhost/api/client/support-requests', {
             method: 'POST',
             credentials: 'include',
             headers: {

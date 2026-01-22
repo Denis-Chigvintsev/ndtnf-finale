@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
+import { FullCloseGuard } from './modules/iam/guards/full-close/full-close.guard';
 
 @Controller()
 export class AppController {

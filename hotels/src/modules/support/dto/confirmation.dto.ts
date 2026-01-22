@@ -1,4 +1,6 @@
+import { IsString } from 'class-validator';
+
 export class ConfirmationDto {
-  id: string;
-  arrNumber: string;
+  @IsString()
+  createdBefore: string;
 }

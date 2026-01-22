@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Day } from '../types/day.type';
 
 @Schema()
 export class HotelRoom extends Document {
@@ -23,5 +24,8 @@ export class HotelRoom extends Document {
 
   @Prop()
   isEnabled: boolean;
+
+  @Prop()
+  map: Day[];
 }
 export const HotelRoomSchema = SchemaFactory.createForClass(HotelRoom);

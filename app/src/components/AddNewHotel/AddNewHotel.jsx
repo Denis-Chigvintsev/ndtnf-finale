@@ -17,12 +17,11 @@ function AddNewHotel() {
 
     e.target.title.value = '';
     e.target.description.value = '';
-
     from(JSON.stringify(hotel))
       .pipe(
         debounceTime(300),
         exhaustMap((data) => {
-          return fetch('http://localhost/hotels/admin', {
+          return fetch('http://localhost/api/admin/hotels', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -36,27 +35,20 @@ function AddNewHotel() {
             .catch((error) => console.log(error));
         })
       )
-      .subscribe(console.log);
+      .subscribe();
   }
 
   useEffect(() => {
     const title_ = document.getElementById('title');
     const title$ = fromEvent(title_, 'change')
-      .pipe(
-        map((e) => e.target.value),
-        debounceTime(300)
-      )
+      .pipe(map((e) => e.target.value))
       .subscribe((data) => {
         title = data;
       });
 
     const description_ = document.getElementById('description');
     const description$ = fromEvent(description_, 'change')
-      .pipe(
-        debounceTime(300),
-        map((e) => e.target.value),
-        debounceTime(300)
-      )
+      .pipe(map((e) => e.target.value))
       .subscribe((data) => {
         description = data;
       });

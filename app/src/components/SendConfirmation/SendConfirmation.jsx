@@ -2,23 +2,23 @@ import s from './SendConfirmation.module.css';
 import { exhaustMap, from, fromEvent, debounceTime, map } from 'rxjs';
 import { useEffect } from 'react';
 
-let id, arrNumber;
+let id, createdBefore;
 
 function SendConfirmation() {
   function handleFormSubmit(e) {
     e.preventDefault();
 
     e.target.id_sc.value = '';
-    e.target.arrNumber_sc.value = '';
+    e.target.createdBefore_sc.value = '';
 
-    const confirmationDto = { id, arrNumber };
+    const confirmationDto = { createdBefore };
 
     from(JSON.stringify(confirmationDto))
       .pipe(
         debounceTime(300),
         exhaustMap((data) => {
           return fetch(
-            `http://localhost/support/support-request/read-confirmation/client/manager`,
+            `http://localhost/api/common/support-requests/${id}/messages/read`,
 
             {
               method: 'POST',
@@ -45,11 +45,11 @@ function SendConfirmation() {
         id = data;
       });
 
-    const arrNumber_ = document.getElementById('arrNumber_sc');
-    const arrNumber$ = fromEvent(arrNumber_, 'change')
+    const createdBefore_ = document.getElementById('createdBefore_sc');
+    const createdBefore$ = fromEvent(createdBefore_, 'change')
       .pipe(map((e) => e.target.value))
       .subscribe((data) => {
-        arrNumber = data;
+        createdBefore = data;
       });
   }, []);
 
@@ -68,8 +68,8 @@ function SendConfirmation() {
         </label>
         <br />
         <label>
-          номер сообщения в массиве сообщений обращения в поддержку:
-          <input id='arrNumber_sc' type='text' />
+          дата, до которой сообщения будут считаться прочитанными:
+          <input id='createdBefore_sc' type='date' required />
         </label>
         <br />
 

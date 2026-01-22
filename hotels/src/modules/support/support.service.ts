@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -35,7 +36,7 @@ export class SupportService {
         },
       ],
     };
-    console.log(exitDto);
+    //   console.log(exitDto);
     const createdSupportRequest = new this.supportModel(exitDto);
     return await createdSupportRequest.save();
   }
@@ -45,16 +46,13 @@ export class SupportService {
   }
 
   async findListOfRequestsClient(session) {
-    console.log(95509, await session.user.id);
+    //  console.log(95509, await session.user.id);
     return await this.supportModel.find({ authorId: await session.user.id });
   }
 
   async sendMessage(messageDto, session, id) {
     const found = await this.supportModel.find({ id: id });
     if (found) {
-      console.log(890890, found[0]);
-      console.log(890900, found[0]);
-
       const exitDto =
         // это то что пойдет на запись
         {
@@ -75,22 +73,44 @@ export class SupportService {
   async getRequestById(session, id) {
     const found = await this.supportModel.find({ id: id });
     if (found) {
-      console.log(890890, found[0]);
-      console.log(890900, found[0]);
+      // console.log(890890, found[0]);
+      // console.log(890900, found[0]);
       return await this.supportModel.findOne({ id: id });
     }
   }
 
-  async readConfirmation(confirmationDto: ConfirmationDto) {
-    console.log(1600, confirmationDto);
-    const { id, arrNumber } = confirmationDto;
-    const found = await this.supportModel.find({ id: id });
-    found[0].messages[+arrNumber].readAt = new Date();
-    return await this.supportModel.findOneAndUpdate(
-      { id: id },
-      { $set: found[0] },
-      { new: true },
-    );
+  readConfirmation(confirmationDto: ConfirmationDto, id: string, res, req) {
+    this.supportModel.findOne({ id: id }).then((found) => {
+      found?.messages.map((el) => {
+        if (
+          !el.readAt &&
+          el.sentAt &&
+          new Date(el.sentAt) < new Date(confirmationDto.createdBefore) &&
+          req.session.user.name !== el.author
+        ) {
+          return (el.readAt = new Date());
+        }
+      });
+      if (found) {
+        this.supportModel
+          .findOneAndUpdate({ id: id }, { $set: found }, { new: true })
+          .then(() => {
+            res.status(200).send({
+              success: true,
+            });
+          });
+      }
+    });
+
+    // console.log(1600, confirmationDto);
+    //  const { id, arrNumber } = confirmationDto;
+    //  const found = await this.supportModel.find({ id: id });
+    //  found[0].messages[+arrNumber].readAt = new Date();
+    //  return await this.supportModel.findOneAndUpdate(
+    //    { id: id },
+    //    { $set: found[0] },
+    //    { new: true },
+    //  );
   }
 
   async findRequest(reqid) {

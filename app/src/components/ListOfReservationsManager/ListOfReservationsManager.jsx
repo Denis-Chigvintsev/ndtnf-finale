@@ -21,7 +21,7 @@ function ListOfReservationsManager() {
       .pipe(
         debounceTime(300),
         switchMap((data) => {
-          return fetch(`http://localhost/reservations/manager/${userID}`, {
+          return fetch(`http://localhost/api/manager/reservations/${userID}`, {
             credentials: 'include',
           })
             .then((res) => res.json())

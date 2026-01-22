@@ -5,13 +5,19 @@ import { Document } from 'mongoose';
 export class Reservation extends Document {
   @Prop()
   id: string = '';
+
   @Prop()
   userId: string;
 
   @Prop()
+  hotelId: string;
+
+  @Prop()
   roomId: string;
+
   @Prop()
   dateStart: Date;
+
   @Prop()
   dateEnd: Date;
 }

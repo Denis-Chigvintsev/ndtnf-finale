@@ -9,7 +9,7 @@ function ListOfUsers() {
     list$ = fromEvent(document.getElementById('users_lou'), 'click').pipe(
       debounceTime(300),
       switchMap(async () => {
-        return await fetch('http://localhost/users/findall/admin/manager', {
+        return await fetch('http://localhost/api/admin/users  ', {
           credentials: 'include',
         })
           .then((res) => res.json())
